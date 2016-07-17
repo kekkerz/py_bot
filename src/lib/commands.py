@@ -84,7 +84,7 @@ class commands:
 			except:
 				print('Error writing to file. Could not add command ' + command_name)
 		else:
-			print('Command \"' + command_name + '\" alread exists, or user \"' + username + '\" not in moderators.')
+			print('Command \"' + command_name + '\" does not exist, or user \"' + username + '\" not in moderators.')
 
 	#Usage - !remove_command <command_name>
 	def remove_command(self, args):
@@ -154,7 +154,6 @@ class commands:
 				index = random.randrange(0, len(raffle_users)) #Select random index between 0 and the last value in list
 				winner = raffle_users[index] #Select winner from list with random index
 				raffle_status = False #End raffle
-				print(raffle_users)
 				raffle_users[:] = [] #Clear list
 
 				return 'Winner is @' + winner + ' !'

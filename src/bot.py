@@ -37,6 +37,9 @@ class twitch_bot:
 
 				print(username + ": " + message)
 
+				if config['log']:
+					irc.log_message(username, message)
+
 				#Check if message is a command
 				if commands.is_valid_command(message) or commands.is_valid_command(message.split(' ')[0]):
 					command = message
@@ -51,6 +54,7 @@ class twitch_bot:
 					if result: #Send reply to user that ran command
 						response = '@{} {}'.format(username, result)
 						irc.send_message(response)
+						irc.log_message(config['NICK'], response)
 
 				if commands.check_is_custom_command(message):
 					result = commands.run_custom_command(message)
@@ -58,3 +62,4 @@ class twitch_bot:
 					if result:
 						response = '@{} {}'.format(username, result)
 						irc.send_message(response)
+						irc.log_message(config['NICK'], response)

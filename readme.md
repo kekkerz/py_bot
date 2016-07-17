@@ -12,17 +12,29 @@ This bot is still very early in development and currently only responds to a few
 
 !add_command <command_name> "Text" - Allows a moderator of the chat room to add a custom command for users to run. For example, on a speedrun channel, you may want to add a command called "!run" and have the bot respond to the user with information about the run.
 
+!update_command <command_name> "New Text" - Update an existing custom command, rather than needing to remove, and re-add.
+
 !remove_command <command_name> - Allows moderator to remove custom commands that were previously added.
+
+!raffle_start - Broadcaster can use this command to start a raffle for giveaways. Users use !raffle to enter.
+
+!raffle - If a raffle is in progress, users can use this command to enter the raffle. Only one entry is allowed.
+
+!raffle_end - Used by broadcaster to end raffle. This command will select a winner from a list of users that used !raffle and will then end the raffle.
         
 !quit - Allows the broadcaster to close the bot remotely.
 ```
 
+## Logging chat activity to file.
+
+By default, chat logs are placed in src/logs/'Current Date'.log. Will, possibly add a config option to change the default log file location.
+
 ## To do list:
 
-1. Add `!update_command` that allows moderator to update existing custom commands, rather than needing to remove, and re-add.
+1. Add moderation functionality where the bot will be able to timeout users based on content contained in their messages.
 
-2. Add a `!raffle_start` command to allow broadcaster to start a raffle for giveaways. Users will type `!raffle` to enter.
+## Changelog
 
-3. Add moderation functionality where the bot will be able to timeout users based on content contained in their messages.
+07/17 Added !update_command, raffle functionality, and ability to log chat activity to a file.
 
-4. Add ability to log chat activity to a file.
+

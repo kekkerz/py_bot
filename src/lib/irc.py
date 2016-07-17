@@ -1,5 +1,6 @@
-import socket, re, time, sys, requests, json #Import required libraries
+import socket, re, time, sys, requests, json, os #Import required libraries
 from src.lib.custom_commands import *
+dir = os.path.realpath('src/logs/')
 
 class irc:
 
@@ -37,6 +38,13 @@ class irc:
 
 	def send_message(self, data): #Send messsage to chat as bot
 		self.sock.send('PRIVMSG {} :{}\n'.format(self.config['CHAN'], data).encode())
+
+	def log_message(self, username, message):
+		#message = message_list['message']
+		#username = message_list['username']
+
+		with open(dir + "/" + time.strftime('%m-%d-%Y') + '.log', 'a+') as file:
+			file.write(time.strftime('%H:%M:%S') + ' - ' + username + ': ' + message + '\n')
 
 	def get_socket(self): #Create socket object, login, and join channel configured in config.py
 		sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

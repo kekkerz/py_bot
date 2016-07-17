@@ -12,5 +12,5 @@ config = {
 
         'debug':True, #Set to True to enable printing of additional information
 
-        'log':False #Set to True to log chat entries to file
+        'log':True #Set to True to log chat entries to file
 }
