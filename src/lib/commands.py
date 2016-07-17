@@ -18,7 +18,7 @@ class commands:
 
 	def quit(self, args): #Allows broadcaster to stop bot remotely
 		USERSTATE = args[len(args) - 2]
-		if re.search('@badges=\w*,?broadcaster,?\w*/[0-9]+', irc.parse_userstate(USERSTATE)[0]):
+		if re.search('@badges=\w*,?broadcaster,?\w*/[0-9]+', self.irc.parse_userstate(USERSTATE)[0]):
 			sys.exit()
 
         #Usage - !add_command <command_name> "text"
