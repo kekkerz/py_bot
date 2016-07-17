@@ -1,4 +1,9 @@
 from src.bot import *
 from src.config.config import *
+import sys
 
-bot = twitch_bot(config).start() #Begin bot
+try:
+	bot = twitch_bot(config).start() #Begin bot
+
+except KeyboardInterrupt:
+	sys.exit()

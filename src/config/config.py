@@ -5,7 +5,6 @@ config = {
         'HOST':'irc.twitch.tv',
         'PORT':6667,
         'NICK':'py_bot',
-        #'PASS':"oauth:22nuwa92dfv7n1svvzkyqq9mtig4j4",
         'PASS':'oauth:lj9tqbnho79ghubrnm5mc6x1sj1fg6',
         'CHAN':'#abb1995',
 
