@@ -40,9 +40,6 @@ class irc:
 		self.sock.send('PRIVMSG {} :{}\n'.format(self.config['CHAN'], data).encode())
 
 	def log_message(self, username, message):
-		#message = message_list['message']
-		#username = message_list['username']
-
 		with open(dir + "/" + time.strftime('%m-%d-%Y') + '.log', 'a+') as file:
 			file.write(time.strftime('%H:%M:%S') + ' - ' + username + ': ' + message + '\n')
 
