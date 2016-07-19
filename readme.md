@@ -27,7 +27,7 @@ This bot is still very early in development and currently only responds to a few
 
 ## Logging chat activity to file.
 
-By default, chat logs are placed in src/logs/'Current Date'.log. Will, possibly add a config option to change the default log file location.
+By default, chat logs are placed in src/logs/'Current Date'.log. Modify src/config/config.py to change log location.
 
 ## To do list:
 
