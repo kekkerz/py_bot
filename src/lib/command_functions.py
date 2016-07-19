@@ -1,8 +1,6 @@
 #Import config and commands
 from src.config.config import *
-#from src.lib.commands import *
 import src.lib.commands as commands_
-#from src.lib.custom_commands import *
 import src.lib.custom_commands as custom_commands
 import inspect
 import importlib

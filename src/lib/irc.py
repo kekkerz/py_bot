@@ -1,6 +1,5 @@
 import socket, re, time, sys, requests, json, os #Import required libraries
 from src.lib.custom_commands import *
-dir = os.path.realpath('src/logs/')
 
 class irc:
 
@@ -39,7 +38,12 @@ class irc:
 	def send_message(self, data): #Send messsage to chat as bot
 		self.sock.send('PRIVMSG {} :{}\n'.format(self.config['CHAN'], data).encode())
 
-	def log_message(self, username, message):
+	def log_message(self, username, message): #Log chat messages to file. Default location is sr/logs/'date'.log
+		if self.config['log_dir'] == '': #Set directory for logs
+			dir = os.path.realpath('src/logs/')
+		else:
+			dir = os.path.realpath(self.config['log_dir'])
+
 		with open(dir + "/" + time.strftime('%m-%d-%Y') + '.log', 'a+') as file:
 			file.write(time.strftime('%H:%M:%S') + ' - ' + username + ': ' + message + '\n')
 
