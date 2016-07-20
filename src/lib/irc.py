@@ -24,6 +24,10 @@ class irc:
 		if re.search(':\w+!\w+@\w+\.tmi\.twitch\.tv PRIVMSG #\w+ :', data):
 			return True
 
+	def check_for_link(self, message): #Check if message is a link
+		if re.search('https?:\/\/\w*\.?\w+\.\w+\/?', message):
+			return True
+
 	def check_ping(self, data): #Check if twitch is sending PING to bot
 		if data[:4] == 'PING':
 			self.sock.send('PONG tmi.twitch.tv\r\n'.encode())
@@ -31,14 +35,14 @@ class irc:
 	def get_message(self, data): #Return username and message from provided data
 		return {
 			'username':re.findall(':\w+', data)[0].replace(':', ''),
-			'message':re.findall('PRIVMSG #[a-zA-Z0-9_]+ :(.+)', data)[0],
+			'message':re.findall('PRIVMSG #[a-zA-Z0-9_]+ :(.+)', data)[0].strip('\r'),
 			'USERSTATE':data.split()[0]
 		}
 
 	def send_message(self, data): #Send messsage to chat as bot
 		self.sock.send('PRIVMSG {} :{}\n'.format(self.config['CHAN'], data).encode())
 
-	def log_message(self, username, message): #Log chat messages to file. Default location is sr/logs/'date'.log
+	def log_message(self, username, message, timeout_status): #Log chat messages to file. Default location is sr/logs/'date'.log
 		if self.config['log_dir'] == '': #Set directory for logs
 			dir = os.path.realpath('src/logs/')
 		else:
@@ -46,6 +50,10 @@ class irc:
 
 		with open(dir + "/" + time.strftime('%m-%d-%Y') + '.log', 'a+') as file:
 			file.write(time.strftime('%H:%M:%S') + ' - ' + username + ': ' + message + '\n')
+
+	def timeout(self, username, message, duration): #Timeout user with custom message and duration defined in config.py
+		self.send_message('.timeout ' + username + ' ' + str(duration))
+		self.send_message('@' + username + ' <---- ' + message)
 
 	def get_socket(self): #Create socket object, login, and join channel configured in config.py
 		sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

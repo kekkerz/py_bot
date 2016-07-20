@@ -45,6 +45,15 @@ class commands:
 				with open(dir + '/custom_commands.py', 'w') as file: #Write changes
 					file.writelines(data)
 
+				with open(dir + '/command_cooldowns.py', 'r') as file:
+					cd_data = file.readlines()
+
+				#Add command and it's cooldown to the list of commands in command_cooldowns.py
+				cd_data[len(cd_data) - 1] = '\t\'' + command_name + '\':{ \'cd\':config[\'default_cmd_cd\'], \'last_used\':0, },\n}'
+
+				with open(dir + '/command_cooldowns.py', 'w') as file:
+					file.writelines(cd_data)
+
 				return 'Command !' + command_name + ' added.'
 			except:
 				print('Error writing to file. Could not add command ' + command_name)
@@ -105,6 +114,14 @@ class commands:
 						if not re.findall('\'' + command_name + '\'(?=:)', line):
 							file.write(line)
 				file.close()
+
+				with open(dir + '/command_cooldowns.py', 'r') as file:
+					cd_data = file.readlines()
+
+				with open(dir + '/command_cooldowns.py', 'w') as file:
+					for line in cd_data:
+						if not re.findall('\'' + command_name + '\'(?=:)', line):
+							file.write(line)
 
 				return 'Command !' + command_name + ' removed.'
 

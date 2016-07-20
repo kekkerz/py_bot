@@ -19,6 +19,8 @@ class twitch_bot:
 		while True: #Loop to read chat
 			data = sock.recv(config['socket_buffer_size']).decode("UTF-8") #Receieve messages from socket
 
+			timeout = False
+
 			if len(data) == 0: #If no data is received, re-connect
 				print('Connection lost, reconnecting.')
 				sock = self.irc.get_socket()
@@ -37,8 +39,20 @@ class twitch_bot:
 
 				print(username + ": " + message)
 
-				if config['log']:
-					irc.log_message(username, message)
+				#If sub_only_links is enabled and non-mod/subscriber pastes a link, time them out
+				if config['sub_only_links'] and irc.check_for_link(message):
+					if 'mod=1' in irc.parse_userstate(USERSTATE) or 'subscriber=1' in irc.parse_userstate(USERSTATE):
+						pass
+					else:
+						irc.timeout(username, config['link_timeout_message'], config['link_timeout_time'])
+						timeout = True
+						irc.log_message(config['NICK'], '@' + username + ' ' + config['link_timeout_message'], False)
+
+				if config['log'] and timeout: #Log timeout to file
+					irc.log_message(username, message.strip('\r') + ' <-- Timed Out', True)
+
+				else:
+					irc.log_message(username, message, False)
 
 				#Check if message is a command
 				if commands.is_valid_command(message) or commands.is_valid_command(message.split(' ')[0]):
@@ -49,17 +63,28 @@ class twitch_bot:
 					args.append(USERSTATE)
 					args.append(username) #Add username to end of args list
 
-					result = commands.run_command(command, args)
+					if not commands.command_on_cd(command): #Check if command is on cooldown
+						result = commands.run_command(command, args)
 
-					if result: #Send reply to user that ran command
-						response = '@{} {}'.format(username, result)
-						irc.send_message(response)
-						irc.log_message(config['NICK'], response)
+						if result: #Send reply to user that ran command
+							response = '@{} {}'.format(username, result)
+							irc.send_message(response)
+							if config['log']:
+								irc.log_message(config['NICK'], response, False)
+
+						commands.update_cd(command) #Update cooldown for command
+
+					if command == '!add_command': #If user added a custom command, reload cooldowns module to ensure changes are read
+						commands.reload_cooldowns()
 
 				if commands.check_is_custom_command(message):
-					result = commands.run_custom_command(message)
+					if not commands.command_on_cd(message):
+						result = commands.run_custom_command(message)
 
-					if result:
-						response = '@{} {}'.format(username, result)
-						irc.send_message(response)
-						irc.log_message(config['NICK'], response)
+						if result:
+							response = '@{} {}'.format(username, result)
+							irc.send_message(response)
+							if config['log']:
+								irc.log_message(config['NICK'], response, False)
+
+						commands.update_cd(message)
