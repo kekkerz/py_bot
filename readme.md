@@ -38,13 +38,3 @@ By default, chat logs are placed in src/logs/'Current Date'.log. Modify src/conf
 07/17 Added !update_command, raffle functionality, and ability to log chat activity to a file.
 
 07/19 Added command cooldowns, sub-only links, and additional config settings.
-
-	log_dir - Specify a custom location for log files.
-
-	sub_only_links - Enable/disable subscriber only links.
-
-	link_timeout_message - Customize message sent to user when they are timed out for pasting a link.
-
-	link_timeout_time - Duration for non-sub link timeouts.
-
-	default_cmd_cd - The default cooldown time for commands.07/19 Added command cooldowns, sub-only links, and additional config settings.
