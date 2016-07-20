@@ -86,7 +86,6 @@ class commands:
 						#Don't write previous instance of command to the file.
 						if not re.findall('\'' + command_name + '\'(?=:)', line) or re.search('\n}', line):
 							file.write(line)
-				file.close()
 
 				return 'Command !' + command_name + ' updated.'
 
@@ -107,13 +106,11 @@ class commands:
 			try:
 				with open(dir + '/custom_commands.py', 'r') as file: #Get file's lines
 					data = file.readlines()
-				file.close()
 
 				with open(dir + '/custom_commands.py', 'w') as file:
 					for line in data: #Loop over file, if command_name is found, do not write that line back to file
 						if not re.findall('\'' + command_name + '\'(?=:)', line):
 							file.write(line)
-				file.close()
 
 				with open(dir + '/command_cooldowns.py', 'r') as file:
 					cd_data = file.readlines()
