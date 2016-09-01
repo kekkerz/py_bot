@@ -32,9 +32,3 @@ By default, chat logs are placed in src/logs/'Current Date'.log. Modify src/conf
 ## To do list:
 
 1. Add moderation functionality where the bot will be able to timeout users based on content contained in their messages.
-
-## Changelog
-
-07/17 Added !update_command, raffle functionality, and ability to log chat activity to a file.
-
-07/19 Added command cooldowns, sub-only links, and additional config settings.
